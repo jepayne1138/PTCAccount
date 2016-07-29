@@ -40,8 +40,8 @@ Import the *ptcaccount* package to create new accounts in your own scripts::
 
 Installation
 ------------
-Currently supports Python 2.
+Supports Python 2 and 3.
 
-Install from github using pip::
+Install from Github using pip::
 
     pip install git+https://github.com/jepayne1138/PTCAccount.git@v1.1.0

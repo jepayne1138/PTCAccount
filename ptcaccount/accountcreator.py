@@ -1,9 +1,16 @@
 from six.moves import range
 import random
 import string
-import urllib
+# urllib imports supporting Python 2 and 3
+try:
+    # Python 3
+    from urllib.parse import urlencode
+except ImportError:
+    # Python 2
+    from urllib import urlencode
 
 import requests
+
 from ptcaccount.exceptions import *
 
 
@@ -66,7 +73,7 @@ class PTCSession(requests.Session):
 
         # Encode the data dict if provided
         if isinstance(data, dict):
-            data = urllib.urlencode(data, doseq=True)
+            data = urlencode(data, doseq=True)
         # If data provided, the request must be a POST method
         method = 'POST' if data else 'GET'
 
