@@ -7,17 +7,17 @@ import requests
 from ptcaccount.exceptions import *
 
 # The base URL for Pokemon Trainer Club
-BASE_URL = 'https://club.pokemon.com/us/pokemon-trainer-club'
+_BASE_URL = 'https://club.pokemon.com/us/pokemon-trainer-club'
 
 # Account creation validation is done by checking the response URLs
 # The following are control flow URL constants
-SUCCESS_DESTS = (
+_SUCCESS_DESTS = (
     'https://club.pokemon.com/us/pokemon-trainer-club/parents/email',  # This initially seemed to be the proper success redirect
     'https://club.pokemon.com/us/pokemon-trainer-club/sign-up/',  # but experimentally it now seems to return to the sign-up, but still registers
 )
 # As both seem to work, we'll check against both success destinations until I have I better idea for how to check success
-DUPE_EMAIL_DEST = 'https://club.pokemon.com/us/pokemon-trainer-club/forgot-password?msg=users.email.exists'
-BAD_DATA_DEST = 'https://club.pokemon.com/us/pokemon-trainer-club/parents/sign-up'
+_DUPE_EMAIL_DEST = 'https://club.pokemon.com/us/pokemon-trainer-club/forgot-password?msg=users.email.exists'
+_BAD_DATA_DEST = 'https://club.pokemon.com/us/pokemon-trainer-club/parents/sign-up'
 
 
 class PTCSession(requests.Session):
@@ -81,7 +81,7 @@ class PTCSession(requests.Session):
         return resp
 
 
-def random_string(length=15):
+def _random_string(length=15):
     """Generate a random alpha-numeric string of the given length
 
     Args:
@@ -97,7 +97,7 @@ def random_string(length=15):
     )
 
 
-def random_email(local_length=10, sub_domain_length=5, top_domain='.com'):
+def _random_email(local_length=10, sub_domain_length=5, top_domain='.com'):
     """Generate a random email-like string
 
     Generates a random email-like string (i.e. local@subdomain.domain).
@@ -116,13 +116,13 @@ def random_email(local_length=10, sub_domain_length=5, top_domain='.com'):
       str: Random email-like string.
     """
     return '{local}@{sub_domain}{top_domain}'.format(
-        local=random_string(local_length),
-        sub_domain=random_string(sub_domain_length),
+        local=_random_string(local_length),
+        sub_domain=_random_string(sub_domain_length),
         top_domain=top_domain,
     )
 
 
-def validate_password(password):
+def _validate_password(password):
     """Validates that the password can be used to create a PTC account
 
     As currently the only requirement I am aware of is a length restriction,
@@ -183,14 +183,14 @@ def create_account(username, password, email):
     """
     # Validate a user given password
     if password is not None:
-        validate_password(password)
+        _validate_password(password)
 
     # Set up the session
     session = PTCSession()
 
     # (Emulates navigating to the sign-up age verification page)
     session.request(
-        url='{base_url}/parents/sign-up'.format(base_url=BASE_URL),
+        url='{base_url}/parents/sign-up'.format(base_url=_BASE_URL),
         headers={  # No headers required
             'Host': 'club.pokemon.com',
             'Connection': 'keep-alive',
@@ -205,7 +205,7 @@ def create_account(username, password, email):
 
     # Post request submitting date of birth and country
     session.request(
-        url='{base_url}/sign-up/'.format(base_url=BASE_URL),
+        url='{base_url}/sign-up/'.format(base_url=_BASE_URL),
         headers={  # Content-Type and Referer headers are required
             'Host': 'club.pokemon.com',
             'Cache-Control': 'max-age=0',
@@ -214,7 +214,7 @@ def create_account(username, password, email):
             'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
             'Content-Type': 'application/x-www-form-urlencoded',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Referer': '{base_url}/sign-up/'.format(base_url=BASE_URL),
+            'Referer': '{base_url}/sign-up/'.format(base_url=_BASE_URL),
             'Accept-Encoding': 'gzip, deflate, br',
             'Accept-Language': 'en-US,en;q=0.8'
         },
@@ -228,7 +228,7 @@ def create_account(username, password, email):
 
     # Post request submitting account information
     resp = session.request(
-        url='{base_url}/parents/sign-up'.format(base_url=BASE_URL),
+        url='{base_url}/parents/sign-up'.format(base_url=_BASE_URL),
         headers={  # Content-Type and Referer headers are required
             'Host': 'club.pokemon.com',
             'Cache-Control': 'max-age=0',
@@ -256,10 +256,10 @@ def create_account(username, password, email):
     )
 
     # Validate response
-    return validate_response(resp)
+    return _validate_response(resp)
 
 
-def validate_response(resp):
+def _validate_response(resp):
     """Validate final request response to determine if account was created
 
     Args:
@@ -282,11 +282,11 @@ def validate_response(resp):
         at any time. (Server or underlying code issue; try again and submit
         bug report on continues failure if creation works in browser.)
     """
-    if resp.url in SUCCESS_DESTS:
+    if resp.url in _SUCCESS_DESTS:
         return True
-    elif resp.url == DUPE_EMAIL_DEST:
+    elif resp.url == _DUPE_EMAIL_DEST:
         raise PTCInvalidEmailException('Email already in use.')
-    elif resp.url == BAD_DATA_DEST:
+    elif resp.url == _BAD_DATA_DEST:
         if 'Enter a valid email address.' in resp.text:
             raise PTCInvalidEmailException('Invalid email.')
         else:
@@ -338,9 +338,9 @@ def random_account(username=None, password=None, email=None):
         at any time. (Server or underlying code issue; try again and submit
         bug report on continues failure if creation works in browser.)
     """
-    try_username = random_string() if username is None else str(username)
-    password = random_string() if password is None else str(password)
-    try_email = random_email() if email is None else str(email)
+    try_username = _random_string() if username is None else str(username)
+    password = _random_string() if password is None else str(password)
+    try_email = _random_email() if email is None else str(email)
 
     account_created = False
     while not account_created:
@@ -351,13 +351,13 @@ def random_account(username=None, password=None, email=None):
         except PTCInvalidNameException:
             # If no username was provided, create new username and try again
             if username is None:
-                try_username = random_string()
+                try_username = _random_string()
             else:
                 # If username was provided, re-raise the exception for bad name
                 raise
         except PTCInvalidEmailException:
             if email is None:
-                try_email = random_email()
+                try_email = _random_email()
             else:
                 # If email was provided, re-raise the exception for bad email
                 raise
