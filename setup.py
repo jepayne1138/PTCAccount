@@ -3,7 +3,7 @@ from io import open
 from setuptools import setup
 
 DIST_NAME = 'PTCAccount'
-VERSION = '0.0a1'
+VERSION = 'v1.1.0'
 AUTHOR = 'James Payne'
 EMAL = 'jepayne1138@gmail.com'
 GITHUB_USER = 'jepayne1138'
@@ -26,7 +26,7 @@ setup(
     download_url='{GITHUB_URL}/tarball/{VERSION}'.format(**locals()),
     keywords='',
     install_requires=[
-        'requests==2.10.0',
+        'requests[security]==2.10.0',
         'six==1.10.0',
     ],
     classifiers=[
