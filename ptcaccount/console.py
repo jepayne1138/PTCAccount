@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-import ptcaccount.accountcreator as accountcreator
+from ptcaccount import random_account
 from ptcaccount.exceptions import *
 
 
@@ -37,7 +37,7 @@ def entry():
     args = parse_arguments(sys.argv[1:])
     try:
         # Create the random account
-        username, password, email = accountcreator.random_account(
+        username, password, email = random_account(
             args.username, args.password, args.email
         )
 
