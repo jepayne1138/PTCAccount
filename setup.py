@@ -18,7 +18,7 @@ setup(
     name=DIST_NAME,
     packages=['ptcaccount'],
     version=VERSION,
-    description='Automatic creation of Pokémon Trainer Club accounts.',
+    description='Automatic creation of Pokemon Trainer Club accounts.',
     author=AUTHOR,
     author_email=EMAL,
     url=GITHUB_URL,
@@ -37,6 +37,7 @@ setup(
     ],
     entry_points={
         'console_scripts': [
+            'ptc = ptcaccount.console:entry',
         ],
     }
 )
