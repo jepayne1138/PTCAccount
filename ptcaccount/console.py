@@ -2,7 +2,7 @@ import argparse
 import sys
 
 from ptcaccount import random_account
-from ptcaccount.exceptions import *
+from ptcaccount.ptcexceptions import *
 
 
 def parse_arguments(args):
