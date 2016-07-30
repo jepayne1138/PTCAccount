@@ -1,5 +1,5 @@
-Pokemon Trainer Club Account Creator
-====================================
+Pokemon Trainer Club Account Creator v1.1.1
+===========================================
 
 Description
 -----------
@@ -44,4 +44,4 @@ Supports Python 2 and 3.
 
 Install from Github using pip::
 
-    pip install git+https://github.com/jepayne1138/PTCAccount.git@v1.1.0
+    pip install git+https://github.com/jepayne1138/PTCAccount.git@v1.1.1
