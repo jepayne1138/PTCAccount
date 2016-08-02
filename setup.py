@@ -3,7 +3,7 @@ from io import open
 from setuptools import setup
 
 DIST_NAME = 'PTCAccount'
-VERSION = 'v1.1.0'
+VERSION = 'v1.1.1'
 AUTHOR = 'James Payne'
 EMAL = 'jepayne1138@gmail.com'
 GITHUB_USER = 'jepayne1138'
