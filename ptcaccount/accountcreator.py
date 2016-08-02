@@ -11,7 +11,7 @@ except ImportError:
 
 import requests
 
-from ptcaccount.ptcexceptions import *
+from ptcaccount.exceptions import *
 
 
 __all__ = ['create_account', 'random_account']
@@ -386,6 +386,10 @@ def random_account(username=None, password=None, email=None, email_tag=False):
         except PTCInvalidEmailException:
             if email is None:
                 try_email = _random_email()
+            elif email_tag and username is None:
+                # If the bad email has a tag of a random username,
+                # re-generate a new username and try again
+                try_username = _random_string()
             else:
                 # If email was provided, re-raise the exception for bad email
                 raise

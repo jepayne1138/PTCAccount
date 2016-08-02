@@ -1,4 +1,4 @@
-Pokemon Trainer Club Account Creator v1.1.1
+Pokemon Trainer Club Account Creator v1.2.0
 ===========================================
 
 Description
@@ -29,6 +29,10 @@ Example 2 (Create a new account with specified parameters)::
       Password:  hunter2
       Email   :  verifiable@lackmail.ru
 
+Extra Options:
+
+- *--email-tag*: Add the username as a tag to the email (e.g. address+username@gmail.com).
+
 **As package:**
 
 Import the *ptcaccount* package to create new accounts in your own scripts::
@@ -44,4 +48,4 @@ Supports Python 2 and 3.
 
 Install from Github using pip::
 
-    pip install git+https://github.com/jepayne1138/PTCAccount.git@v1.1.1
+    pip install git+https://github.com/jepayne1138/PTCAccount.git@v1.2.0
