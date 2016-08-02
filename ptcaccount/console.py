@@ -29,6 +29,10 @@ def parse_arguments(args):
         '-e', '--email', type=str, default=None,
         help='Email for the new account (defaults to random email-like string).'
     )
+    parser.add_argument(
+        '--email-tag', action='store_true',
+        help='Add the username as a tag to the email (i.e addr+tag@mail.com).'
+    )
     return parser.parse_args(args)
 
 
@@ -38,7 +42,7 @@ def entry():
     try:
         # Create the random account
         username, password, email = random_account(
-            args.username, args.password, args.email
+            args.username, args.password, args.email, args.email_tag
         )
 
         # Display the account credentials

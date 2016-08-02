@@ -159,6 +159,19 @@ def _validate_password(password):
     return True
 
 
+def _tag_email(email_address, tag):
+    """Add a plus sign and the tag before the first at sign in the email
+
+    Args:
+      email_address (str): Email address tag is to be added to.
+      tag (str): Tag to add after the plus sign before first at sign.
+
+    Returns:
+      str: Email with the tag added.
+    """
+    return email_address.replace('@', '+{}@'.format(tag), 1)
+
+
 def create_account(username, password, email):
     """Creates a new Pokemon Trainer Club account
 
@@ -306,7 +319,7 @@ def _validate_response(resp):
     return False  # Should never hit here
 
 
-def random_account(username=None, password=None, email=None):
+def random_account(username=None, password=None, email=None, email_tag=False):
     """Crate a random Pokemon Trainer Club account
 
     Creates a new account with random username, password, and email.
@@ -354,6 +367,11 @@ def random_account(username=None, password=None, email=None):
 
     account_created = False
     while not account_created:
+        # Add tag in loop so that it is update if email or username changes
+        if email_tag:
+            try_email = _tag_email(try_email, try_username)
+
+        # Attempt to create the new account
         try:
             account_created = create_account(
                 try_username, password, try_email
