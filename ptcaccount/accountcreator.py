@@ -11,7 +11,7 @@ except ImportError:
 
 import requests
 
-from ptcaccount.exceptions import *
+from ptcaccount.ptcexceptions import *
 
 
 __all__ = ['create_account', 'random_account']
