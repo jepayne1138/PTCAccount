@@ -343,6 +343,8 @@ def random_account(username=None, password=None, email=None, email_tag=False):
         Defaults to a random alpha-numeric string.
       email (str, optional): Specific email for the new account. Defaults
         to a randomly generated email-like string.
+      email_tag (bool, optional): The username should be added as a tag
+        to the email address. Defaults to False.
 
     Returns:
       Tuple[str, str, str]: A tuple containing the final username, password,
