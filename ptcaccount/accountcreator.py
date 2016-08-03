@@ -226,72 +226,80 @@ def create_account(username, password, email):
     # Set up the session
     session = PTCSession()
 
-    # (Emulates navigating to the sign-up age verification page)
-    session.request(
-        url='{base_url}/parents/sign-up'.format(base_url=_BASE_URL),
-        headers={  # No headers required
-            'Host': 'club.pokemon.com',
-            'Connection': 'keep-alive',
-            'Upgrade-Insecure-Requests': '1',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Accept-Encoding': 'gzip, deflate, sdch, br',
-            'Accept-Language': 'en-US,en;q=0.8',
-        },
-        resp_code=200
-    )
+    successfully_created = False
+    while not successfully_created:
+        try:
+            # (Emulates navigating to the sign-up age verification page)
+            session.request(
+                url='{base_url}/parents/sign-up'.format(base_url=_BASE_URL),
+                headers={  # No headers required
+                    'Host': 'club.pokemon.com',
+                    'Connection': 'keep-alive',
+                    'Upgrade-Insecure-Requests': '1',
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                    'Accept-Encoding': 'gzip, deflate, sdch, br',
+                    'Accept-Language': 'en-US,en;q=0.8',
+                },
+                resp_code=200
+            )
 
-    # Post request submitting date of birth and country
-    session.request(
-        url='{base_url}/sign-up/'.format(base_url=_BASE_URL),
-        headers={  # Content-Type and Referer headers are required
-            'Host': 'club.pokemon.com',
-            'Cache-Control': 'max-age=0',
-            'Origin': 'https://club.pokemon.com',
-            'Upgrade-Insecure-Requests': '1',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Referer': '{base_url}/sign-up/'.format(base_url=_BASE_URL),
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Accept-Language': 'en-US,en;q=0.8'
-        },
-        data={
-            'csrfmiddlewaretoken': session.cookies.get_dict()['csrftoken'],
-            'dob': '1970-01-01',
-            'country': 'US',
-        },
-        resp_code=200
-    )
+            # Post request submitting date of birth and country
+            session.request(
+                url='{base_url}/sign-up/'.format(base_url=_BASE_URL),
+                headers={  # Content-Type and Referer headers are required
+                    'Host': 'club.pokemon.com',
+                    'Cache-Control': 'max-age=0',
+                    'Origin': 'https://club.pokemon.com',
+                    'Upgrade-Insecure-Requests': '1',
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                    'Referer': '{base_url}/sign-up/'.format(base_url=_BASE_URL),
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Accept-Language': 'en-US,en;q=0.8'
+                },
+                data={
+                    'csrfmiddlewaretoken': session.cookies.get_dict()['csrftoken'],
+                    'dob': '1970-01-01',
+                    'country': 'US',
+                },
+                resp_code=200
+            )
 
-    # Post request submitting account information
-    resp = session.request(
-        url='{base_url}/parents/sign-up'.format(base_url=_BASE_URL),
-        headers={  # Content-Type and Referer headers are required
-            'Host': 'club.pokemon.com',
-            'Cache-Control': 'max-age=0',
-            'Origin': 'https://club.pokemon.com',
-            'Upgrade-Insecure-Requests': '1',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-            'Referer': 'https://club.pokemon.com/us/pokemon-trainer-club/parents/sign-up',
-            'Accept-Encoding': 'gzip, deflate, br',
-            'Accept-Language': 'en-US,en;q=0.8'
-        },
-        data={
-            'csrfmiddlewaretoken': session.cookies.get_dict()['csrftoken'],
-            'username': username,
-            'password': password,
-            'confirm_password': password,
-            'email': email,
-            'confirm_email': email,
-            'public_profile_opt_in': 'False',
-            'screen_name': '',
-            'terms': 'on',
-        },
-        resp_code=200
-    )
+            # Post request submitting account information
+            resp = session.request(
+                url='{base_url}/parents/sign-up'.format(base_url=_BASE_URL),
+                headers={  # Content-Type and Referer headers are required
+                    'Host': 'club.pokemon.com',
+                    'Cache-Control': 'max-age=0',
+                    'Origin': 'https://club.pokemon.com',
+                    'Upgrade-Insecure-Requests': '1',
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+                    'Referer': 'https://club.pokemon.com/us/pokemon-trainer-club/parents/sign-up',
+                    'Accept-Encoding': 'gzip, deflate, br',
+                    'Accept-Language': 'en-US,en;q=0.8'
+                },
+                data={
+                    'csrfmiddlewaretoken': session.cookies.get_dict()['csrftoken'],
+                    'username': username,
+                    'password': password,
+                    'confirm_password': password,
+                    'email': email,
+                    'confirm_email': email,
+                    'public_profile_opt_in': 'False',
+                    'screen_name': '',
+                    'terms': 'on',
+                },
+                resp_code=200
+            )
+
+            # Indicates that we created the account and can exit the retry loop
+            successfully_created = True
+        except PTCInvalidStatusCodeException:
+            print("[-] Received invalid status code, retrying ...")
 
     # Validate response
     return _validate_response(resp)
