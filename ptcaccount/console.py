@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-from ptcaccount import random_account
+from ptcaccount import *
 from ptcaccount.ptcexceptions import *
 
 
@@ -41,15 +41,15 @@ def entry():
     args = parse_arguments(sys.argv[1:])
     try:
         # Create the random account
-        username, password, email = random_account(
+        account_info = random_account(
             args.username, args.password, args.email, args.email_tag
         )
 
         # Display the account credentials
         print('Created new account:')
-        print('  Username:  {}'.format(username))
-        print('  Password:  {}'.format(password))
-        print('  Email   :  {}'.format(email))
+        print('  Username:  {}'.format(account_info[USERNAME]))
+        print('  Password:  {}'.format(account_info[PASSWORD]))
+        print('  Email   :  {}'.format(account_info[EMAIL]))
 
     # Handle account creation failure exceptions
     except PTCInvalidPasswordException as err:
