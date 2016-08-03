@@ -14,7 +14,22 @@ import requests
 from ptcaccount.ptcexceptions import *
 
 
-__all__ = ['create_account', 'random_account']
+__all__ = [
+    'create_account',
+    'random_account',
+    'PROVIDER',
+    'USERNAME',
+    'PASSWORD',
+    'EMAIL'
+]
+
+# Constants defining the keys of the returned account dictionary
+PROVIDER = 'provider'
+USERNAME = 'username'
+PASSWORD = 'password'
+EMAIL = 'email'
+_PTC_PROVIDER = 'ptc'  # Account provider (APIs take 'ptc' or 'google')
+
 
 # The base URL for Pokemon Trainer Club
 _BASE_URL = 'https://club.pokemon.com/us/pokemon-trainer-club'
@@ -347,8 +362,9 @@ def random_account(username=None, password=None, email=None, email_tag=False):
         to the email address. Defaults to False.
 
     Returns:
-      Tuple[str, str, str]: A tuple containing the final username, password,
-       and email of the new account, respectfully.
+      Dict[str, str]: A dict of the new account information, containing the
+        provider ('ptc'), username, password, and email.  Access using the
+        exposed constants PROVIDER, USERNAME, PASSWORD, and EMAIL.
 
     Raises:
       PTCInvalidNameException: If the given username is already in use.
@@ -397,4 +413,9 @@ def random_account(username=None, password=None, email=None, email_tag=False):
                 raise
 
     # Return the username, password, and email of the new account
-    return (try_username, password, try_email)
+    return {
+        PROVIDER: _PTC_PROVIDER,
+        USERNAME: try_username,
+        PASSWORD: password,
+        EMAIL: try_email,
+    }
