@@ -39,7 +39,7 @@ Import the *ptcaccount* package to create new accounts in your own scripts::
 
     >>> from  ptcaccount import random_account
     >>> random_account()
-    ('dGXJXnAzxqmjbaP', 'yUbiAgcXhBrEwHk', 'TVKzlu1AcW@6yxi6.com')
+    {'username': 'dGXJXnAzxqmjbaP', 'password': 'yUbiAgcXhBrEwHk', 'email': 'TVKzlu1AcW@6yxi6.com', 'provider': 'ptc'}
 
 
 Installation
