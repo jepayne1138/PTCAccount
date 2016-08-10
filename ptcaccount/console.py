@@ -30,6 +30,14 @@ def parse_arguments(args):
         help='Email for the new account (defaults to random email-like string).'
     )
     parser.add_argument(
+        '-m', '--multiple', type=int, default=1,
+        help='Create multiple accounts at once (defaults to 1)'
+    )
+    parser.add_argument(
+        '--compact', action='store_true',
+        help='Compact the output to "username:password"'
+    )
+    parser.add_argument(
         '--email-tag', action='store_true',
         help='Add the username as a tag to the email (i.e addr+tag@mail.com).'
     )
@@ -40,16 +48,21 @@ def entry():
     """Main entry point for the package console commands"""
     args = parse_arguments(sys.argv[1:])
     try:
-        # Create the random account
-        account_info = random_account(
-            args.username, args.password, args.email, args.email_tag
-        )
+        print('Creating new account(s):')
+        for _ in range(args.multiple):
+            # Create the random account
+            account_info = random_account(
+                args.username, args.password, args.email, args.email_tag
+            )
 
-        # Display the account credentials
-        print('Created new account:')
-        print('  Username:  {}'.format(account_info[USERNAME]))
-        print('  Password:  {}'.format(account_info[PASSWORD]))
-        print('  Email   :  {}'.format(account_info[EMAIL]))
+            if args.compact:
+                print('{}:{}'.format(account_info[USERNAME], account_info[PASSWORD]))
+            else:
+                print('  Username:  {}'.format(account_info[USERNAME]))
+                print('  Password:  {}'.format(account_info[PASSWORD]))
+                print('  Email   :  {}'.format(account_info[EMAIL]))
+                print('\n')
+
 
     # Handle account creation failure exceptions
     except PTCInvalidPasswordException as err:
