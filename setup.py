@@ -6,7 +6,7 @@ DIST_NAME = 'PTCAccount'
 VERSION = 'v1.2.2'
 AUTHOR = 'James Payne'
 EMAL = 'jepayne1138@gmail.com'
-GITHUB_USER = 'ryanza'
+GITHUB_USER = 'jepayne1138'
 GITHUB_URL = 'https://github.com/{GITHUB_USER}/{DIST_NAME}'.format(**locals())
 
 # Get the long description from the README file
